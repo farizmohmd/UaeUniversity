@@ -1,4 +1,4 @@
-import {ActivityIndicator, FlatList, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -63,14 +63,14 @@ const HomeScreen = ({navigation}) => {
   );
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       {loading ?(
 
       <ActivityIndicator style={styles.containerError} size='large' color={'black'}/>) :
       error ? (
-        <View style={styles.containerError}>
+        <SafeAreaView style={styles.containerError}>
           <Text>{error}</Text>
-        </View>
+        </SafeAreaView>
       ) : (
         <View>
           <Text style={styles.heading}>UAE's best Universities</Text>
@@ -81,7 +81,7 @@ const HomeScreen = ({navigation}) => {
           />
         </View>
       )}
-    </View>
+    </SafeAreaView>
   );
 };
 
