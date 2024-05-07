@@ -1,4 +1,4 @@
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, StyleSheet, Text, TouchableOpacity, View, SafeAreaView} from 'react-native';
 import React from 'react';
 
 const DetailsScreen = ({route, navigation}) => {
@@ -9,7 +9,7 @@ const DetailsScreen = ({route, navigation}) => {
     navigation.goBack();
   };
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <TouchableOpacity onPress={handleRefresh} style={styles.refresh}>
         <View />
         <Image
@@ -35,7 +35,7 @@ const DetailsScreen = ({route, navigation}) => {
           </Text>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
