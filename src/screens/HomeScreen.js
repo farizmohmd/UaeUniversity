@@ -22,17 +22,23 @@ const HomeScreen = ({navigation}) => {
       const response = await axios.get(BASE_URL);
       setUniversities(response.data);
       await AsyncStorage.setItem('Universities', JSON.stringify(response.data));
-      setLoading(false);
+      setError('');
     } catch (error) {
-      console.error('Error fetching data: ', error);
-      setError('Failed to fetch data from API.');
-      setLoading(false);
+      console.error(
+        'Error fetching data from API - please check the internet connection: ',
+        error,
+      );
       const cachedData = await AsyncStorage.getItem('Universities');
       if (cachedData) {
         setUniversities(JSON.parse(cachedData));
+        setError('');
       } else {
-        setError('No data available');
+        setError(
+          'Failed fetching data from api and there is no cached data available',
+        );
       }
+    } finally {
+      setLoading(false);
     }
   };
 
