@@ -1,4 +1,12 @@
-import {ActivityIndicator, FlatList, SafeAreaView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -14,12 +22,12 @@ const HomeScreen = ({navigation}) => {
       const response = await axios.get(BASE_URL);
       setUniversities(response.data);
       await AsyncStorage.setItem('Universities', JSON.stringify(response.data));
-      setLoading(false)
+      setLoading(false);
     } catch (error) {
       console.error('Error fetching data: ', error);
       setError('Failed to fetch data from API.');
-      setLoading(false)
-      const cachedData = await AsyncStorage.getItem('universities');
+      setLoading(false);
+      const cachedData = await AsyncStorage.getItem('Universities');
       if (cachedData) {
         setUniversities(JSON.parse(cachedData));
       } else {
@@ -33,7 +41,7 @@ const HomeScreen = ({navigation}) => {
   }, []);
 
   const onRefresh = () => {
-    setLoading(true)
+    setLoading(true);
     setUniversities([]);
     setError('');
     fetchUniversities();
@@ -46,7 +54,7 @@ const HomeScreen = ({navigation}) => {
       }
       style={styles.card}>
       <View style={styles.cardItems}>
-        <View>
+        <View style={{width: '80%'}}>
           <Text style={styles.name}>{item.name}</Text>
           {item['state-province'] !== null ? (
             <Text style={styles.province}>{item['state-province']}</Text>
@@ -64,24 +72,27 @@ const HomeScreen = ({navigation}) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {loading ?(
-
-      <ActivityIndicator style={styles.containerError} size='large' color={'black'}/>) :
-      error ? (
+      {loading ? (
+        <ActivityIndicator
+          style={styles.containerError}
+          size="large"
+          color={'black'}
+        />
+      ) : error ? (
         <SafeAreaView style={styles.containerError}>
           <Text>{error}</Text>
         </SafeAreaView>
       ) : (
-        <View style={{padding:10}}>
+        <View style={styles.paddingBottom}>
           <Text style={styles.heading}>UAE's best Universities</Text>
           <FlatList
+            showsVerticalScrollIndicator={false}
             data={universities}
             renderItem={renderItem}
             keyExtractor={item => item.name}
           />
         </View>
       )}
-      
     </SafeAreaView>
   );
 };
@@ -107,6 +118,7 @@ const styles = StyleSheet.create({
   },
   card: {
     padding: 10,
+    paddingRight: 1,
     borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     justifyContent: 'center',
@@ -115,7 +127,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding:10
+    padding: 10,
   },
   iconContainer: {
     height: 30,
@@ -139,5 +151,8 @@ const styles = StyleSheet.create({
   province: {
     fontWeight: '300',
     color: 'black',
+  },
+  paddingBottom: {
+    paddingBottom: 70,
   },
 });
